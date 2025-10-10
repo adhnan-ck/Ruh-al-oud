@@ -123,27 +123,34 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-card border-b border-border px-6 py-4">
+      <header className="bg-card border-b border-border px-4 md:px-6 py-4">
         <div className="flex items-center justify-between">
-          <h1 className="font-display text-2xl font-bold">Ruh Al Oud [Admin]</h1>
-          <Button variant="outline" onClick={signOut}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
+          <h1 className="font-display text-xl md:text-2xl font-bold">Ruh Al Oud [Admin]</h1>
+          <Button variant="outline" size="sm" onClick={signOut}>
+            <LogOut className="mr-0 md:mr-2 h-4 w-4" />
+            <span className="hidden md:inline">Sign Out</span>
           </Button>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="font-display text-3xl font-semibold">Products</h2>
-          <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h2 className="font-display text-2xl md:text-3xl font-semibold">Products</h2>
+          <div className="flex gap-3 w-full sm:w-auto">
             {products.length === 0 && (
-              <Button variant="outline" onClick={handleSeedData} disabled={loading}>
+              <Button 
+                variant="outline" 
+                onClick={handleSeedData} 
+                disabled={loading}
+                className="flex-1 sm:flex-none"
+                size="sm"
+              >
                 <Database className="mr-2 h-4 w-4" />
-                Add Demo Products
+                <span className="hidden sm:inline">Add Demo Products</span>
+                <span className="sm:hidden">Demo</span>
               </Button>
             )}
-            <Button onClick={() => setShowForm(true)}>
+            <Button onClick={() => setShowForm(true)} className="flex-1 sm:flex-none" size="sm">
               <Plus className="mr-2 h-4 w-4" />
               Add Product
             </Button>
@@ -161,43 +168,90 @@ const AdminDashboard = () => {
             </Button>
           </div>
         ) : (
-          <div className="bg-card rounded-lg overflow-hidden shadow-soft">
-            <table className="w-full">
-              <thead className="bg-muted">
-                <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Image</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Sizes</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {products.map((product) => (
-                  <tr key={product.id}>
-                    <td className="px-6 py-4">
-                      <img src={product.imageURL} alt={product.name} className="w-16 h-16 object-cover rounded" />
-                    </td>
-                    <td className="px-6 py-4 font-medium">{product.name}</td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{product.category}</td>
-                    <td className="px-6 py-4 text-sm">
-                      {product.sizes.map(s => `${s.label}: ₹${s.price}`).join(', ')}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEdit(product)}>
-                          <Pencil className="h-3 w-3" />
-                        </Button>
-                        <Button variant="destructive" size="sm" onClick={() => handleDelete(product.id)}>
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-card rounded-lg overflow-hidden shadow-soft">
+              <table className="w-full">
+                <thead className="bg-muted">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Image</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Sizes</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {products.map((product) => (
+                    <tr key={product.id}>
+                      <td className="px-6 py-4">
+                        <img src={product.imageURL} alt={product.name} className="w-16 h-16 object-cover rounded" />
+                      </td>
+                      <td className="px-6 py-4 font-medium">{product.name}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground">{product.category}</td>
+                      <td className="px-6 py-4 text-sm">
+                        {product.sizes.map(s => `${s.label}: ₹${s.price}`).join(', ')}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" onClick={() => handleEdit(product)}>
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                          <Button variant="destructive" size="sm" onClick={() => handleDelete(product.id)}>
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+              {products.map((product) => (
+                <div key={product.id} className="bg-card rounded-lg shadow-soft overflow-hidden">
+                  <div className="flex gap-4 p-4">
+                    <img 
+                      src={product.imageURL} 
+                      alt={product.name} 
+                      className="w-24 h-24 object-cover rounded flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-lg truncate">{product.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-2">{product.category}</p>
+                      <div className="text-sm space-y-1">
+                        {product.sizes.map((size, idx) => (
+                          <div key={idx} className="text-muted-foreground">
+                            {size.label}: ₹{size.price}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-t border-border p-3 flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => handleEdit(product)}
+                    >
+                      <Pencil className="h-4 w-4 mr-2" />
+                      Edit
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      className="flex-1"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </main>
 
