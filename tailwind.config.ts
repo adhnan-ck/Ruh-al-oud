@@ -14,9 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
-        body: ['Inter', 'sans-serif'],
-      },
+  display: ['Montserrat', 'sans-serif'],
+  body: ['Open Sans', 'sans-serif'],
+},
+
       colors: {
         luxury: {
           DEFAULT: 'hsl(var(--luxury))',

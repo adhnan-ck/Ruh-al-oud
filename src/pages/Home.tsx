@@ -42,25 +42,36 @@ const Home = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
-            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
-              The Soul of Luxury in Every Drop
-            </h1>
-            <p className="text-lg md:text-xl mb-8 opacity-90">
-             Discover luxury fragrances with Ruh Al Oud. Unique blends of oud, musk & modern scents crafted to perfection.Wholesale & retail available.
-            </p>
-            <Link to="/AllProducts">
-            <Button size="lg" variant="secondary" className="group">
-              Explore Collection
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            </Link>
-            
-          </div>
-        </div>
-      </section>
+<section
+  className="
+    relative   /* <-- Add this */
+    pt-32 pb-20 text-primary-foreground 
+    bg-[url('/ruhaloud_hero.jpg')] bg-cover bg-center 
+    md:bg-none md:gradient-hero
+  "
+>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/50 md:bg-transparent"></div>
+
+  {/* Hero Content */}
+  <div className="relative container mx-auto px-4">
+    <div className="max-w-3xl mx-auto text-center animate-fade-in">
+      <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
+        The Soul of Luxury in Every Drop
+      </h1>
+      <p className="text-lg md:text-xl mb-8 opacity-90">
+        Discover luxury fragrances with Ruh Al Oud. Unique blends of oud, musk & modern scents crafted to perfection. Wholesale & retail available.
+      </p>
+      <Link to="/AllProducts">
+        <Button size="lg" variant="secondary" className="group">
+          Explore Collection
+          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
+
 
       {/* Best Sellers */}
       {bestSellers.length > 0 && (
