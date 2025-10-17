@@ -19,7 +19,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleWhatsAppOrder = () => {
     const message = `Hi, I'd like to order:\n${product.name} – ${selectedSize.label} – ₹${selectedSize.price}`;
-    const whatsappUrl = `https://wa.me/919995338177?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/918848320553?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
