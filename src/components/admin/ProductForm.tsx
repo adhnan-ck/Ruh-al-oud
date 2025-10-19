@@ -16,12 +16,13 @@ interface ProductFormProps {
   onClose: () => void;
 }
 
-const CLOUD_NAME = "dyrboid0u";       // Your Cloudinary cloud name
-const UPLOAD_PRESET = "ruhaloud";     // Your unsigned upload preset
+const CLOUD_NAME = "dyrboid0u";
+const UPLOAD_PRESET = "ruhaloud";
 
 const ProductForm = ({ product, onClose }: ProductFormProps) => {
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<'Best Seller' | 'Men' | 'Women'>('Best Seller');
+  const [category, setCategory] = useState<'Attar' | 'Perfume'>('Attar');
+  const [subcategory, setSubcategory] = useState<'Best Seller' | 'Men' | 'Women'>('Best Seller');
   const [description, setDescription] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [sizes, setSizes] = useState<ProductSize[]>([{ label: '60ml', price: 999 }]);
@@ -31,20 +32,16 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
   useEffect(() => {
     if (product) {
       setName(product.name);
-      setCategory(product.category);
+      setCategory(product.category as 'Attar' | 'Perfume');
+      setSubcategory(product.subcategory as 'Best Seller' | 'Men' | 'Women');
       setDescription(product.description);
       setImageURL(product.imageURL);
       setSizes(product.sizes);
     }
   }, [product]);
 
-  const handleAddSize = () => {
-    setSizes([...sizes, { label: '', price: 0 }]);
-  };
-
-  const handleRemoveSize = (index: number) => {
-    setSizes(sizes.filter((_, i) => i !== index));
-  };
+  const handleAddSize = () => setSizes([...sizes, { label: '', price: 0 }]);
+  const handleRemoveSize = (index: number) => setSizes(sizes.filter((_, i) => i !== index));
 
   const handleSizeChange = (index: number, field: 'label' | 'price', value: string | number) => {
     const newSizes = [...sizes];
@@ -102,6 +99,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
       const productData = {
         name,
         category,
+        subcategory,
         description,
         imageURL,
         sizes,
@@ -110,16 +108,10 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
 
       if (product) {
         await updateDoc(doc(db, 'products', product.id), productData);
-        toast({
-          title: "Success",
-          description: "Product updated successfully",
-        });
+        toast({ title: "Success", description: "Product updated successfully" });
       } else {
         await addDoc(collection(db, 'products'), productData);
-        toast({
-          title: "Success",
-          description: "Product added successfully",
-        });
+        toast({ title: "Success", description: "Product added successfully" });
       }
 
       onClose();
@@ -148,6 +140,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Product Name */}
           <div>
             <Label htmlFor="name">Product Name</Label>
             <Input
@@ -159,11 +152,26 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
             />
           </div>
 
+          {/* Category */}
           <div>
             <Label htmlFor="category">Category</Label>
             <Select value={category} onValueChange={(value: any) => setCategory(value)}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Select Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="attar">Attar</SelectItem>
+                <SelectItem value="perfume">Perfume</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Subcategory */}
+          <div>
+            <Label htmlFor="subcategory">Subcategory</Label>
+            <Select value={subcategory} onValueChange={(value: any) => setSubcategory(value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Subcategory" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Best Seller">Best Seller</SelectItem>
@@ -173,6 +181,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
             </Select>
           </div>
 
+          {/* Description */}
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea
@@ -185,6 +194,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
             />
           </div>
 
+          {/* Image Upload */}
           <div>
             <Label htmlFor="image">Product Image</Label>
             <Input
@@ -203,6 +213,7 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
             )}
           </div>
 
+          {/* Sizes */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <Label>Sizes & Prices</Label>

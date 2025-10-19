@@ -18,7 +18,7 @@ const Cart = () => {
     message += `\nTotal items: ${cartItems.reduce((sum, item) => sum + item.quantity, 0)}`;
     message += `\nTotal amount: ₹${getCartTotal()}`;
 
-    const whatsappUrl = `https://wa.me/919995338177?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/918848320553?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

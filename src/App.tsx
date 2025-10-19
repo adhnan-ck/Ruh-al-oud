@@ -13,6 +13,8 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import AllProducts from "./pages/AllProducts";
+import AllAttars from "./pages/AllAttars";
+import AllPerfumes from "./pages/AllPerfumes";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
               <Route path="/admin" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/AllProducts" element={<AllProducts />} />
+              <Route path="/AllPerfumes" element={<AllPerfumes />} />
+              <Route path="/AllAttars" element={<AllAttars />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
