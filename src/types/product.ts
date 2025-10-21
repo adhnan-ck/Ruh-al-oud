@@ -1,12 +1,14 @@
 export interface ProductSize {
   label: string;
   price: number;
+  fullPrice?: number;
 }
 
 export interface Product {
   id: string;
   name: string;
-  category: 'Best Seller' | 'Men' | 'Women';
+  category: 'attar' | 'perfume';
+  subcategory: 'Best Seller' | 'Men' | 'Women';
   description: string;
   imageURL: string;
   sizes: ProductSize[];

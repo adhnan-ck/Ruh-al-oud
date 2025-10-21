@@ -25,7 +25,10 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
   const [subcategory, setSubcategory] = useState<'Best Seller' | 'Men' | 'Women'>('Best Seller');
   const [description, setDescription] = useState('');
   const [imageURL, setImageURL] = useState('');
-  const [sizes, setSizes] = useState<ProductSize[]>([{ label: '60ml', price: 999 }]);
+  const [sizes, setSizes] = useState<ProductSize[]>([
+  { label: '60ml', price: 999, fullPrice: 1299 },
+]);
+
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -43,11 +46,21 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
   const handleAddSize = () => setSizes([...sizes, { label: '', price: 0 }]);
   const handleRemoveSize = (index: number) => setSizes(sizes.filter((_, i) => i !== index));
 
-  const handleSizeChange = (index: number, field: 'label' | 'price', value: string | number) => {
-    const newSizes = [...sizes];
-    newSizes[index] = { ...newSizes[index], [field]: value };
-    setSizes(newSizes);
-  };
+  const handleSizeChange = (
+  index: number,
+  field: 'label' | 'price' | 'fullPrice',
+  value: string | number
+) => {
+  const newSizes = [...sizes];
+  // coerce numbers for price/fullPrice
+  if (field === 'price' || field === 'fullPrice') {
+    newSizes[index] = { ...newSizes[index], [field]: Number(value) || 0 };
+  } else {
+    newSizes[index] = { ...newSizes[index], [field]: value as string };
+  }
+  setSizes(newSizes);
+};
+
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -224,33 +237,41 @@ const ProductForm = ({ product, onClose }: ProductFormProps) => {
             </div>
 
             <div className="space-y-3">
-              {sizes.map((size, index) => (
-                <div key={index} className="flex gap-2">
-                  <Input
-                    placeholder="Size (e.g., 60ml)"
-                    value={size.label}
-                    onChange={(e) => handleSizeChange(index, 'label', e.target.value)}
-                    required
-                  />
-                  <Input
-                    type="number"
-                    placeholder="Price"
-                    value={size.price}
-                    onChange={(e) => handleSizeChange(index, 'price', Number(e.target.value))}
-                    required
-                  />
-                  {sizes.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => handleRemoveSize(index)}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  )}
-                </div>
-              ))}
+             {sizes.map((size, index) => (
+  <div key={index} className="grid grid-cols-3 gap-2">
+    <Input
+      placeholder="Size (e.g., 60ml)"
+      value={size.label}
+      onChange={(e) => handleSizeChange(index, 'label', e.target.value)}
+      required
+    />
+    <Input
+      type="number"
+      placeholder="Offer Price"
+      value={size.price}
+      onChange={(e) => handleSizeChange(index, 'price', Number(e.target.value))}
+      required
+    />
+    <Input
+      type="number"
+      placeholder="Full Price"
+      value={size.fullPrice || ''}
+      onChange={(e) => handleSizeChange(index, 'fullPrice', Number(e.target.value))}
+    />
+    {sizes.length > 1 && (
+      <Button
+        type="button"
+        variant="destructive"
+        size="icon"
+        onClick={() => handleRemoveSize(index)}
+        className="col-span-3"
+      >
+        <Trash2 className="h-3 w-3" />
+      </Button>
+    )}
+  </div>
+))}
+
             </div>
           </div>
 
