@@ -165,7 +165,7 @@ const Home = () => {
         </section>
       )} */}
 
-    C
+     {loading && <PerfumeBottleLoading />}
 
       {!loading && products.length === 0 && (
         <div className="py-20 text-center">
