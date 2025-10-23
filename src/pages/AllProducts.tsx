@@ -6,6 +6,7 @@ import { Product } from '@/types/product';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
+import PerfumeBottleLoading from '@/components/PerfumeBottleLoading';
 
 const AllProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -81,9 +82,7 @@ const AllProducts = () => {
       <section className="flex-1 py-10">
         <div className="container mx-auto px-4">
           {loading ? (
-            <div className="text-center py-20 text-muted-foreground">
-              Loading perfumes...
-            </div>
+            <PerfumeBottleLoading />
           ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
               {filteredProducts.map((product) => (

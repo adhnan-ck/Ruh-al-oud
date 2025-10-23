@@ -8,6 +8,7 @@ import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import PerfumeBottleLoading from '@/components/PerfumeBottleLoading';
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -131,7 +132,7 @@ const Home = () => {
       )}
 
       {/* Men's Fragrances */}
-      {menProducts.length > 0 && (
+      {/* {menProducts.length > 0 && (
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12 animate-slide-up">
@@ -145,10 +146,10 @@ const Home = () => {
             </div>
           </div>
         </section>
-      )}
+      )} */}
 
       {/* Women's Fragrances */}
-      {womenProducts.length > 0 && (
+      {/* {womenProducts.length > 0 && (
         <section className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12 animate-slide-up">
@@ -162,13 +163,9 @@ const Home = () => {
             </div>
           </div>
         </section>
-      )}
+      )} */}
 
-      {loading && (
-        <div className="py-20 text-center">
-          <p className="text-muted-foreground">Loading fragrances...</p>
-        </div>
-      )}
+    C
 
       {!loading && products.length === 0 && (
         <div className="py-20 text-center">
