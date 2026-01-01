@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Note on path resolution: Since external file structures are unknown, 
 // we assume all imports (contexts, components, etc.) are available for the sake of compiling the router logic.
+// The "Could not resolve" errors encountered in deployment are often fixed by correctly configuring 
+// path aliases (like "@/") in the project's build settings (e.g., jsconfig.json or webpack).
 
 // Mock components and contexts to satisfy the single-file environment and resolve import errors.
 // In a real application, these would be imported from their respective files.
@@ -40,17 +42,12 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* This is the currently active route for the root path (/).
-                It will display the SubscriptionExpired page.
-              */}
+              {/* --- Subscription Expired Route (Active) --- */}
+              {/* This is the only active route for the root path. */}
               <Route path="/" element={<SubscriptionExpired />} />
 
-              {/* The routes below were commented out using the correct JSX comment syntax ({/* ... */}).
-                Note that the original Home route is also for "/" and conflicts with SubscriptionExpired. 
-                Only one of them should be active for the root path at a time.
-              */}
-              {/*
-              <Route path="/" element={<Home />} />
+              {/* --- Core E-commerce and Admin Routes (Commented Out) --- */}
+              {/* <Route path="/" element={<Home />} /> 
               <Route path="/cart" element={<Cart />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
@@ -60,8 +57,10 @@ const App = () => (
               <Route path="/AllPerfumes" element={<AllPerfumes />} />
               <Route path="/AllAttars" element={<AllAttars />} />
               <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="*" element={<NotFound />} />
               */}
+              
+              {/* Catch-all Not Found Route */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
